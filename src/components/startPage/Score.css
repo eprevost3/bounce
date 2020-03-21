@@ -1,0 +1,10 @@
+#score{
+    border: thick solid black;
+    height: 50px;
+    width: 15%;
+    border-radius: 25px;
+    background-color: purple;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
