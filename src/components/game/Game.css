@@ -1,0 +1,13 @@
+#game{
+    display: flex;
+    flex : 4;
+    background-color: purple;
+    justify-content: center;
+    align-items: center;
+}
+
+#canvas{
+    background-color: blue;
+    height: 75%;
+    width: 50%;
+}

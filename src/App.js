@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from './components/header/Header'
 import StartPage from './components/startPage/StartPage'
+import Game from './components/game/Game'
 import './App.css';
 
 class App extends React.Component{
@@ -12,12 +13,7 @@ class App extends React.Component{
     }
 
     // changing which component is displayed in the middle part of the app
-    changeComponent = (whichComp) => {
-        // starting the game
-        if (whichComp === "startPage"){this.setState({condComp : "startPage"})}
-        // ending the game cuz player lost
-        else if (whichComp === "startGame"){this.setState({condComp : "true"})}
-    }
+    changeComponent = (whichComp) => {this.setState({condComp : whichComp})}
 
     render(){
         // conditional component evolving throughout the game
@@ -25,8 +21,8 @@ class App extends React.Component{
 
         // choosing the condComponent value: if game start, let's display the
         // welcome compoent, if game is on, let's display the game itself
-        if(this.state.condComp === "startPage"){condComp = <StartPage func = {this.changeComponent}/>}
-        else{condComp = <Header></Header>}
+        if(this.state.condComp === "startPage" && 0){condComp = <StartPage func = {this.changeComponent}/>}
+        else if (this.state.condComp === "startGame" || 1 ){condComp = <Game func = {this.changeComponent}/>}
 
         return (
           <div className="App">
