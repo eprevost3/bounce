@@ -1,13 +1,18 @@
 #game{
-    display: flex;
-    flex : 4;
-    background-color: purple;
+    background: purple;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 #canvas{
-    background-color: blue;
-    height: 75%;
-    width: 50%;
+    position:absolute;
+    height: 100%;
+    width: 100%;
+}
+
+#canvasBackground{
+    position:absolute;
+    height: 100%;
+    width: 100%;
 }

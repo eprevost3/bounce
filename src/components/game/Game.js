@@ -49,6 +49,17 @@ const isStillAlive = (xPlayer, yPlayer, widthPlayer, heightObstacle, widthObstac
     return(isAlive)
 }
 
+// check if we update the score: we have to be sure the obstacle can't be touched now
+// and that we do not count an obstacle multiple times
+const updateScore = (xPlayer, xObstacles, widthObstacle, deltaX,) => {
+    var n = xObstacles.length
+
+    for (var k = 0; k < n ; k ++){
+        if ((xObstacles[k] + widthPlayer < xPlayer) && (xPlayer - xObstacles[k] <= deltaX)){}//////IIIIIIIIICCCCCCCCCCCCIIiii#############################Finir le compte des obstacles
+    }
+}
+
+
 // cleans the canvas
 const clear = (canvas, yMin, yMax) => {
     const context = canvas.getContext('2d')
@@ -70,20 +81,22 @@ const computePos = (y, time, yMin, yMax) => {
     return(newY)
 }
 
-const posObstacles = (listX, listY, deltaX, deltaY, xRange, yRange, difficulty = 1) => {
+const posObstacles = (listX, listY, deltaX, deltaY, xRange, yRange, heightObstacle, difficulty = 1) => {
     // deltaX : width of obstacles
     var newListX = [], newListY = []
 
     // initialize the obstacle
     if (listX[0] === undefined){
-        var newListX = [xRange[1]], newListY = [Math.floor(Math.random() * yRange[1]) + yRange[0]]
+        newListX = [xRange[1]]
+        newListY = [Math.floor(Math.random() * (yRange[1] - heightObstacle)) + yRange[0]]
+
     }else{
         // if obstacle are already existing : move them
         for (var k = 0; k < listX.length; k ++){
             // if obstacle is out of the frame, let's remove it and add a new one
             if (listX[k] <= 0){
                 newListX.push(xRange[1])
-                newListY.push(Math.floor(Math.random() * yRange[1]) + yRange[0])
+                newListY.push(Math.floor(Math.random() * (yRange[1] - heightObstacle)) + yRange[0])
             }else{
                 newListX.push(listX[k] - deltaX)
                 newListY.push(listY[k] + deltaY)
@@ -101,6 +114,12 @@ const moveObstacles = (listX, listY, heightObstacle, widthObstacle, colorObstacl
 
 }
 
+const drawImage = (canvas) => {
+    const context = canvas.getContext('2d')
+    const image = new Image();
+    image.src = require("../img/sky.png");
+    image.onload = () => {context.drawImage(image, 0, 0, canvas.width, canvas.height);};
+}
 
 class Game extends React.Component{
     constructor(props){
@@ -134,6 +153,9 @@ class Game extends React.Component{
         this.heightObstacle = undefined
         this.widthObstacle = undefined
 
+        // overall score
+        this.score = 0
+
     }
 
     play = (y, canvas) => {
@@ -154,7 +176,7 @@ class Game extends React.Component{
 
                 // find new positions for obstacles
                 var newPositions = posObstacles(this.listX, this.listY,
-                                        this.deltaX, this.deltaY, this.xRange, this.yRange)
+                                        this.deltaX, this.deltaY, this.xRange, this.yRange, this.heightObstacle,)
 
                 this.listX = newPositions[0]
                 this.listY = newPositions[1]
@@ -175,8 +197,11 @@ class Game extends React.Component{
                      this.play(this.posY, canvas)
                 }else{
                     this.startPlay = false
+                    // reinitialize the positions
                     this.posY = (this.yRange[0] + this.yRange[1]) / 2
-                    this.play(this.posY, canvas)
+
+                    // since game is over display a new component
+                    setTimeout(() => {this.props.func("startPage")}, 1000)
                 }
             }
 
@@ -186,8 +211,12 @@ class Game extends React.Component{
     }
 
     componentDidMount(){
-        // getting canvas size
+        // getting canvas size and drawing background image
         var canvas = document.getElementById("canvas")
+        var canvasBackground = document.getElementById("canvasBackground")
+
+        drawImage(canvasBackground)
+
         this.canvasHeight = canvas.height
         this.canvasWidth = canvas.width
 
@@ -224,10 +253,11 @@ class Game extends React.Component{
     }
 
     render(){
-
+        //<img id="backgroundImage" src={require('../img/sky.png')}/>
         return(
-            <div id = 'game'>
-                <canvas id="canvas"></canvas>
+            <div id = 'game' className = "variableComponent">
+                <canvas id ='canvasBackground'/>
+                <canvas id="canvas"/>
             </div>
         )
     }
@@ -235,3 +265,14 @@ class Game extends React.Component{
 }
 
 export default Game
+
+
+
+
+
+
+
+/*
+REPENSER LA PAGE D'ACCUEIL
+
+*/

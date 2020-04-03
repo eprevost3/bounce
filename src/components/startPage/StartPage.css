@@ -1,8 +1,8 @@
 #startPage{
-    display: flex;
-    flex: 4;
     background-color: green;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    background: url("../img/sky.png") center no-repeat;
+    background-size: cover;
 }

@@ -3,4 +3,33 @@
   display: flex;
   flex : 1;
   flex-direction: column;
+  background: url("./components/img/autre.png") center no-repeat;
+  background-size: cover;
+}
+
+#content{
+    display: flex;
+    flex : 4;
+    flex-direction: row;
+}
+
+#marginLeft, #marginRigth{
+    display: flex;
+    flex : 1;
+}
+
+#center{
+    display: flex;
+    flex : 2;
+    flex-direction: column;
+}
+
+#marginTop, #marginBottom{
+    display: flex;
+    flex: 1;
+}
+
+.variableComponent{
+    display: flex;
+    flex: 5;
 }
