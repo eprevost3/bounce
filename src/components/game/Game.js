@@ -73,21 +73,19 @@ const clear = (canvas, yMin, yMax) => {
 }
 
 // computes the jump equation
-const computePos = (y, dy, deltaTime, yMin, yMax) => {
+const computePos = (initialPos, initialSpeed, time, yMin, yMax) => {
     // careful tricky part, cuz y is oriented toward the bottom (as opposed to what
     // we used to do in physics)
-    const g = 9.81
+    const g = 9.81 * 70
 
     // equation derived from the Newton fundamental principle of dynamics
-    //var newY = y - (-200 * time ** 2 + 80 * time)
-    var newDy = dy - g * deltaTime
-    var newY = y + dy * deltaTime - 1/2 * g * deltaTime ** 2
+    var newY = 1 / 2 * g * time ** 2 + initialSpeed * time + initialPos
 
     // threshold the value so it doesn't get above or below maximum values
     if (newY <= yMin){newY = yMin}
     else if (newY >= yMax){newY = yMax}
 
-    return([newY, newDy])
+    return(newY)
 }
 
 const posObstacles = (listX, listY, deltaX, deltaY, xRange, yRange, heightObstacle, difficulty = 1) => {
@@ -136,9 +134,11 @@ class Game extends React.Component{
         this.canvasHeight = undefined
         this.canvasWidth = undefined
         this.sideSquare = 15
+
         // updating the animation every x ms
         this.deltaTime = 50
         this.time = 0
+        this.speed = - 200
 
         // boundaries we musn't touch / limits of the canvas
         this.xRange = [undefined]
@@ -159,6 +159,7 @@ class Game extends React.Component{
         this.deltaX = 10
         this.deltaY = 0
 
+        this.posInit = undefined
         this.heightObstacle = undefined
         this.widthObstacle = undefined
 
@@ -178,13 +179,17 @@ class Game extends React.Component{
             if (this.jump){
                 this.jump = false
                 this.startPlay = true
+                this.posInit = this.posY
+
+                // reinit time
+                this.time = 0
             }
             if (this.startPlay){
                 // position y of player
-                this.posY = computePos(y, dy, this.deltaTime, this.yRange[0], this.yRange[1] - this.sideSquare)
+                this.posY = computePos(this.posInit, this.speed, this.time, this.yRange[0], this.yRange[1] - this.sideSquare)
 
                 // update time
-                this.time += this.deltaTime
+                this.time += this.deltaTime * 1e-3
 
                 clear(canvas, this.yRange[0], this.yRange[1])
 
