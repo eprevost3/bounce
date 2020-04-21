@@ -1,12 +1,13 @@
 import React from 'react'
 import './Header.css'
 import Button from '../other/Button'
+import translations from '../translations/translations.js'
 
-const Header = () => {
+const Header = (props) => {
     return(
         <div id='header'>
-            <Button id = 'question' image = 'question' title = 'Question'/>
-            <Button id = 'langage' image = 'us' title = 'Change langage'/>
+            <Button id = 'homepage' image = 'homepage' title = {translations[props.lang]['homepage']}/>
+            <Button id = 'langage' image = {props.lang} title = {translations[props.lang]['changeLanguage']} onClick = {props.onClick}/>
         </div>
 
     )

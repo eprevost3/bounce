@@ -1,5 +1,8 @@
 import React from 'react'
 import './Game.css'
+import {connect} from 'react-redux'
+import CurrentScore from './CurrentScore'
+
 
 // draw upper and lower boundaries
 const drawFloor = (height, width) => {
@@ -51,12 +54,15 @@ const isStillAlive = (xPlayer, yPlayer, widthPlayer, heightObstacle, widthObstac
 
 // check if we update the score: we have to be sure the obstacle can't be touched now
 // and that we do not count an obstacle multiple times
-const updateScore = (xPlayer, xObstacles, widthObstacle, deltaX,) => {
+const updateScore = (xPlayer, xObstacles, widthObstacle, deltaX, currentScore) => {
     var n = xObstacles.length
 
     for (var k = 0; k < n ; k ++){
-        if ((xObstacles[k] + widthPlayer < xPlayer) && (xPlayer - xObstacles[k] <= deltaX)){}//////IIIIIIIIICCCCCCCCCCCCIIiii#############################Finir le compte des obstacles
+        if ((xObstacles[k] + widthObstacle < xPlayer) && (xPlayer - xObstacles[k] <= deltaX)){return(currentScore + 1);}
+        else{}
     }
+    // if we reach here, that means no new obstacle has been passed, score remains the same
+    return(currentScore)
 }
 
 
@@ -67,18 +73,21 @@ const clear = (canvas, yMin, yMax) => {
 }
 
 // computes the jump equation
-const computePos = (y, time, yMin, yMax) => {
+const computePos = (y, dy, deltaTime, yMin, yMax) => {
     // careful tricky part, cuz y is oriented toward the bottom (as opposed to what
     // we used to do in physics)
+    const g = 9.81
 
     // equation derived from the Newton fundamental principle of dynamics
-    var newY = y - (-200 * time ** 2 + 80 * time)
+    //var newY = y - (-200 * time ** 2 + 80 * time)
+    var newDy = dy - g * deltaTime
+    var newY = y + dy * deltaTime - 1/2 * g * deltaTime ** 2
 
     // threshold the value so it doesn't get above or below maximum values
     if (newY <= yMin){newY = yMin}
     else if (newY >= yMax){newY = yMax}
 
-    return(newY)
+    return([newY, newDy])
 }
 
 const posObstacles = (listX, listY, deltaX, deltaY, xRange, yRange, heightObstacle, difficulty = 1) => {
@@ -111,7 +120,6 @@ const moveObstacles = (listX, listY, heightObstacle, widthObstacle, colorObstacl
     for (var k = 0; k < listX.length; k++){
         drawRect(listX[k], listY[k], heightObstacle, widthObstacle, colorObstacle)
     }
-
 }
 
 const drawImage = (canvas) => {
@@ -120,6 +128,7 @@ const drawImage = (canvas) => {
     image.src = require("../img/sky.png");
     image.onload = () => {context.drawImage(image, 0, 0, canvas.width, canvas.height);};
 }
+
 
 class Game extends React.Component{
     constructor(props){
@@ -155,19 +164,24 @@ class Game extends React.Component{
 
         // overall score
         this.score = 0
+    }
 
+    // update current score in the global state
+    dispatchScore = (score) => {
+        var action = {type : "plusOne", value : score}
+
+        this.props.dispatch(action)
     }
 
     play = (y, canvas) => {
         setTimeout(() => {
             if (this.jump){
-                this.time = 0
                 this.jump = false
                 this.startPlay = true
             }
             if (this.startPlay){
                 // position y of player
-                this.posY = computePos(y, this.time * 1e-3, this.yRange[0], this.yRange[1] - this.sideSquare)
+                this.posY = computePos(y, dy, this.deltaTime, this.yRange[0], this.yRange[1] - this.sideSquare)
 
                 // update time
                 this.time += this.deltaTime
@@ -191,6 +205,14 @@ class Game extends React.Component{
                                            this.widthObstacle, this.yRange[0], this.yRange[1],
                                            this.listX, this.listY,)
 
+                // check if we need to update the score
+                if(this.score !== updateScore(this.posX, this.listX, this.widthObstacle, this.deltaX, this.score)){
+                    console.log(this.score);
+                    this.score ++
+
+                    // if score changes update the global score, to update the other components indicating the score
+                    this.dispatchScore(this.score)
+                }
 
                 if (isAlive){
                      // wait until next animation
@@ -200,8 +222,21 @@ class Game extends React.Component{
                     // reinitialize the positions
                     this.posY = (this.yRange[0] + this.yRange[1]) / 2
 
+                    // since we lost, let's update the score if we the record was beaten
+                    this.props.updateBestScore("set", this.score)
+
                     // since game is over display a new component
-                    setTimeout(() => {this.props.func("startPage")}, 1000)
+                    setTimeout(() => {
+                        this.props.func("startPage")
+
+                        // set the score back to 0
+                        this.score = 0
+
+                        // dispatch the score change to all components
+                        const action = {type : "zero"}
+                        this.props.dispatch(action)
+                    }, 1000)
+
                 }
             }
 
@@ -258,21 +293,11 @@ class Game extends React.Component{
             <div id = 'game' className = "variableComponent">
                 <canvas id ='canvasBackground'/>
                 <canvas id="canvas"/>
+                <CurrentScore/>
             </div>
         )
     }
 
 }
 
-export default Game
-
-
-
-
-
-
-
-/*
-REPENSER LA PAGE D'ACCUEIL
-
-*/
+export default connect()(Game)

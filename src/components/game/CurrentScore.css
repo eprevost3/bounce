@@ -1,0 +1,13 @@
+#currentScore{
+    position: absolute;
+    right : 0;
+    top : 10%;
+    width : 10%;
+    min-width: 50px;
+    height: 10%;
+    font-size: 200%;
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

@@ -1,0 +1,9 @@
+#headerGame{
+    display: flex;
+    flex : 1;
+    background-color: green;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 3%;
+    padding-right: 3%;
+}
