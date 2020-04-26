@@ -6,17 +6,20 @@ import CurrentScore from './CurrentScore'
 
 // draw upper and lower boundaries
 const drawFloor = (height, width) => {
-    var c = document.getElementById("canvas");
-    var ctx = c.getContext("2d");
-    ctx.fillStyle = "grey"
-    ctx.fillRect(0, height, width, - height / 20 + .5);
+    var canvas = document.getElementById("canvas");
+    const context = canvas.getContext('2d')
+    const image = new Image();
+    image.src = require("../img/brick.png");
+    image.onload = () => {context.drawImage(image, 0, canvas.height, canvas.width, - height / 20 + .5);};
+
 }
 
 const drawRoof = (height, width) => {
-    var c = document.getElementById("canvas");
-    var ctx = c.getContext("2d");
-    ctx.fillStyle = "grey"
-    ctx.fillRect(0, 0, width, height / 20 + .5);
+    var canvas = document.getElementById("canvas");
+    const context = canvas.getContext('2d')
+    const image = new Image();
+    image.src = require("../img/brick1.png");
+    image.onload = () => {context.drawImage(image, 0, 0, canvas.width, height / 20);};
 }
 
 const drawSquare = (x, y, side = 20, color = 'black') => {
@@ -94,8 +97,18 @@ const posObstacles = (listX, listY, deltaX, deltaY, xRange, yRange, heightObstac
 
     // initialize the obstacle
     if (listX[0] === undefined){
-        newListX = [xRange[1]]
-        newListY = [Math.floor(Math.random() * (yRange[1] - heightObstacle)) + yRange[0]]
+        // put 2 obstacles
+        newListX = [xRange[1], xRange[1] * 1.5]
+
+        var y0 = Math.floor(Math.random() * (yRange[1] - heightObstacle))
+        var y1 = Math.floor(Math.random() * (yRange[1] - heightObstacle))
+
+        // make sure the obstacles don't touch the upper and lower border
+        y0 = y0 <= yRange[0] ? yRange[0] : y0
+        y1 = y1 <= yRange[0] ? yRange[0] : y1
+        newListY = [y0, y1]
+
+
 
     }else{
         // if obstacle are already existing : move them
@@ -103,7 +116,11 @@ const posObstacles = (listX, listY, deltaX, deltaY, xRange, yRange, heightObstac
             // if obstacle is out of the frame, let's remove it and add a new one
             if (listX[k] <= 0){
                 newListX.push(xRange[1])
-                newListY.push(Math.floor(Math.random() * (yRange[1] - heightObstacle)) + yRange[0])
+                var newY = Math.floor(Math.random() * (yRange[1] - heightObstacle))
+
+                // make sure the obstacles don't touch the upper and lower border
+                newY = newY <= yRange[0] ? yRange[0] : newY
+                newListY.push(newY)
             }else{
                 newListX.push(listX[k] - deltaX)
                 newListY.push(listY[k] + deltaY)
@@ -174,7 +191,11 @@ class Game extends React.Component{
         this.props.dispatch(action)
     }
 
+
     play = (y, canvas) => {
+        if (!this.props.checkGameIsOn()){return(0);/* do nothing, since the game component is not displayed*/}
+        else{}
+
         setTimeout(() => {
             if (this.jump){
                 this.jump = false
@@ -184,6 +205,7 @@ class Game extends React.Component{
                 // reinit time
                 this.time = 0
             }
+
             if (this.startPlay){
                 // position y of player
                 this.posY = computePos(this.posInit, this.speed, this.time, this.yRange[0], this.yRange[1] - this.sideSquare)
@@ -212,7 +234,6 @@ class Game extends React.Component{
 
                 // check if we need to update the score
                 if(this.score !== updateScore(this.posX, this.listX, this.widthObstacle, this.deltaX, this.score)){
-                    console.log(this.score);
                     this.score ++
 
                     // if score changes update the global score, to update the other components indicating the score
@@ -269,7 +290,7 @@ class Game extends React.Component{
         this.xRange[1] = this.canvasWidth
 
         // size of obstacles
-        this.heightObstacle = this.canvasHeight / 20 * 5
+        this.heightObstacle = this.canvasHeight / 20 * 7
         this.widthObstacle = this.heightObstacle / 20
 
         // starting position
@@ -277,9 +298,10 @@ class Game extends React.Component{
         this.posY = (this.yRange[0] + this.yRange[1]) / 2
 
         // add event listener to be able to jump
-        document.addEventListener("keydown", (event) => {if(event.code === 'Space'){this.jump = true;}})
+        document.addEventListener("keydown", (event) => {if(event.code === 'Space'){this.jump = true}})
 
         // draw the floor
+        window.onload = drawFloor
         drawFloor(this.canvasHeight, this.canvasWidth)
 
         // draw roof
@@ -293,7 +315,6 @@ class Game extends React.Component{
     }
 
     render(){
-        //<img id="backgroundImage" src={require('../img/sky.png')}/>
         return(
             <div id = 'game' className = "variableComponent">
                 <canvas id ='canvasBackground'/>
@@ -305,4 +326,9 @@ class Game extends React.Component{
 
 }
 
-export default connect()(Game)
+// bool value indicating if the game is displayed. This is useful to stop some functions like the
+// play function (which will continue running otherwise, even when the game is not displayed)
+//NOW USELESS BUT KEEPING IT FOR OTHER PROJECTS WHERE I'LL NEED A TEMPLATE
+const mapStateToProps = (state) => {return({gameIsDisplayed : state.reducerGameIsDisplayed.gameIsDisplayed})}
+
+export default connect(mapStateToProps)(Game)

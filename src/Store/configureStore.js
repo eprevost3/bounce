@@ -1,4 +1,5 @@
-import { createStore } from 'redux';
+import { createStore, combineReducers } from 'redux';
 import reducerUpdateScore from './reducerUpdateScore'
+import reducerGameIsDisplayed from './reducerGameIsDisplayed'
 
-export default createStore(reducerUpdateScore)
+export default createStore(combineReducers({reducerUpdateScore, reducerGameIsDisplayed}))

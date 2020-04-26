@@ -9,13 +9,13 @@
 
 #content{
     display: flex;
-    flex : 4;
+    flex : 8;
     flex-direction: row;
 }
 
 #marginLeft, #marginRigth{
     display: flex;
-    flex : 1;
+    flex : .7;
 }
 
 #center{
@@ -31,5 +31,5 @@
 
 .variableComponent{
     display: flex;
-    flex: 5;
+    flex: 8;
 }

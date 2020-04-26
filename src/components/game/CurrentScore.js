@@ -9,6 +9,6 @@ const CurrentScore = (props) => {
         </div>
     )}
 
-const mapStateToProps = (state) => {return({score : state.score})}
+const mapStateToProps = (state) => {return({score : state.reducerUpdateScore.score})}
 
 export default connect(mapStateToProps)(CurrentScore)

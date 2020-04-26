@@ -1,11 +1,12 @@
 import React from 'react';
-import { Provider } from 'react-redux'
+import { Provider, connect} from 'react-redux'
 import Store from './Store/configureStore'
 import Header from './components/header/Header'
 import HeaderGame from './components/headerGame/HeaderGame'
 import StartPage from './components/startPage/StartPage'
 import Game from './components/game/Game'
 import './App.css';
+
 
 class App extends React.Component{
     constructor(props){
@@ -64,6 +65,11 @@ class App extends React.Component{
         return(cookies)
     }
 
+    // checks if game is active or not. if not , all logic / calculation for the game is switched off
+    // (to avoid border effects)
+    checkGameIsOn = () => {return(this.state.condComp === "startGame")}
+
+
     // set the value of the cookies
     setValueCookie(dicCookies){
         // the input dictionnary contains the values of the cookies
@@ -93,7 +99,7 @@ class App extends React.Component{
             bodyComp = <StartPage func = {this.changeComponent} lang = {this.state.language} score = {this.setAndGetBestScore}/>
         }else if (this.state.condComp === "startGame"){
             headComp = <HeaderGame lang = {this.state.language} restart = {this.restart}/>
-            bodyComp = <Game func = {this.changeComponent} lang = {this.state.language} updateBestScore = {this.setAndGetBestScore}/>
+            bodyComp = <Game func = {this.changeComponent} lang = {this.state.language} updateBestScore = {this.setAndGetBestScore} checkGameIsOn = {this.checkGameIsOn}/>
         }
 
         return (
@@ -118,7 +124,6 @@ class App extends React.Component{
 }
 
 /*
-lier les cookies aux header et à la langue
-régler le pfd
+régler le problème de la touche retour au menu: ca fait tout bugger
 */
 export default App;

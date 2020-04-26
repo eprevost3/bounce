@@ -4,6 +4,7 @@ import Score from './Score'
 import Button from '../other/Button'
 import translations from '../translations/translations.js'
 
+
 const StartPage = (props) => {
     return(
         <div id='startPage' className = "variableComponent">

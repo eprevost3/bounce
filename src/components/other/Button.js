@@ -24,7 +24,7 @@ const Button = ({id, image, alt, title = '', overWriteDefaultCss = {}, onClick =
     onclick : function to apply when clicking on the button
     */
     return(
-        <div>
+        <div className = 'imageContainer'>
             <img id={id} src={pathImages[image]} className="button" alt={alt} title={title} onClick = {onClick} style = {{...overWriteDefaultCss}}/>
         </div>)
 }
