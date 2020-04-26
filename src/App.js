@@ -1,5 +1,5 @@
 import React from 'react';
-import { Provider, connect} from 'react-redux'
+import { Provider} from 'react-redux'
 import Store from './Store/configureStore'
 import Header from './components/header/Header'
 import HeaderGame from './components/headerGame/HeaderGame'

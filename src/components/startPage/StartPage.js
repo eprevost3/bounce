@@ -10,7 +10,7 @@ const StartPage = (props) => {
         <div id='startPage' className = "variableComponent">
             <Score score = {props.score} lang = {props.lang}/>
             <Button id = "start" image = "play" title = {translations[props.lang]["play"]}
-                                 onClick = {() => {props.func("startGame")}}/>
+                                 onClick = {() => {props.func("startGame")}} overWriteDefaultCss = {{height : '10vh', width : '10vh'}}/>
         </div>
 
     )

@@ -6,7 +6,9 @@
     min-width: 50px;
     height: 10%;
     font-size: 200%;
-    background-color: red;
+    background: url("../img/sky.png") center no-repeat;
+    border: solid 5px rgba(155, 51, 53, 0.71);
+    border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;

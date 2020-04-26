@@ -16,7 +16,7 @@ const PopUp = (props) => {
             </div>
             <div id='textQuestion'>{translations[props.lang]['questionText']}</div>
             <div id='imageBlock'>
-                <img id='imageQuestion' src={require('../img/popUp.png')} alt='image'/>
+                <img id='imageQuestion' src={require('../img/popUp.png')} alt='game pic'/>
             </div>
         </div>)
 }
