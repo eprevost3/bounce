@@ -6,6 +6,7 @@ import HeaderGame from './components/headerGame/HeaderGame'
 import StartPage from './components/startPage/StartPage'
 import Game from './components/game/Game'
 import './App.css';
+import translations from './components/translations/translations'
 
 
 class App extends React.Component{
@@ -106,6 +107,7 @@ class App extends React.Component{
             <Provider store={Store}>
                 <div className="App">
                     {headComp}
+
                     <div id = 'content'>
                         <div id = 'marginLeft'></div>
 
@@ -117,13 +119,17 @@ class App extends React.Component{
 
                         <div id = 'marginRigth'></div>
                     </div>
+
+                    <div id = "reference">
+                        <a href="https://pixabay.com/?utm_source=link-attribution&amp;utm_medium=referral&amp;utm_campaign=image&amp;utm_content=23284" target="_blank">
+                            {translations[this.state.language]["credit"]}
+                        </a>
+                    </div>
                 </div>
             </Provider>
         );
     }
 }
 
-/*
-régler le problème de la touche retour au menu: ca fait tout bugger
-*/
+
 export default App;

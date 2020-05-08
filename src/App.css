@@ -33,3 +33,12 @@
     display: flex;
     flex: 8;
 }
+
+#reference{
+    display: flex;
+    flex-direction: row;
+    justify-content : flex-start;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    font-size: 2vh;
+}
