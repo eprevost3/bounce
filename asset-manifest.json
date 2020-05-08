@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/bounce/static/css/main.ec54aab7.chunk.css",
-    "main.js": "/bounce/static/js/main.a7ab9ebb.chunk.js",
-    "main.js.map": "/bounce/static/js/main.a7ab9ebb.chunk.js.map",
+    "main.css": "/bounce/static/css/main.6034e70d.chunk.css",
+    "main.js": "/bounce/static/js/main.00d45f9e.chunk.js",
+    "main.js.map": "/bounce/static/js/main.00d45f9e.chunk.js.map",
     "runtime-main.js": "/bounce/static/js/runtime-main.70608d6a.js",
     "runtime-main.js.map": "/bounce/static/js/runtime-main.70608d6a.js.map",
     "static/js/2.05a45dde.chunk.js": "/bounce/static/js/2.05a45dde.chunk.js",
     "static/js/2.05a45dde.chunk.js.map": "/bounce/static/js/2.05a45dde.chunk.js.map",
     "index.html": "/bounce/index.html",
-    "precache-manifest.396bfbf96702633bd6e76c0cdb19babe.js": "/bounce/precache-manifest.396bfbf96702633bd6e76c0cdb19babe.js",
+    "precache-manifest.1ab30a632ff0fec2a18784bb381eeb26.js": "/bounce/precache-manifest.1ab30a632ff0fec2a18784bb381eeb26.js",
     "service-worker.js": "/bounce/service-worker.js",
-    "static/css/main.ec54aab7.chunk.css.map": "/bounce/static/css/main.ec54aab7.chunk.css.map",
+    "static/css/main.6034e70d.chunk.css.map": "/bounce/static/css/main.6034e70d.chunk.css.map",
     "static/js/2.05a45dde.chunk.js.LICENSE.txt": "/bounce/static/js/2.05a45dde.chunk.js.LICENSE.txt",
     "static/media/US_flag.jpg": "/bounce/static/media/US_flag.f22d0b17.jpg",
     "static/media/App.css": "/bounce/static/media/autre.3952ee0f.png",
@@ -19,7 +19,7 @@
     "static/media/close.png": "/bounce/static/media/close.86f61cc7.png",
     "static/media/homepage.png": "/bounce/static/media/homepage.4310b865.png",
     "static/media/play.png": "/bounce/static/media/play.f857eff1.png",
-    "static/media/popUp.png": "/bounce/static/media/popUp.1b87f1ee.png",
+    "static/media/popUp.png": "/bounce/static/media/popUp.0ee7fb5a.png",
     "static/media/question.png": "/bounce/static/media/question.8d93e411.png",
     "static/media/restart.png": "/bounce/static/media/restart.8bb07a9f.png",
     "static/media/sky.png": "/bounce/static/media/sky.4601b89c.png"
@@ -27,7 +27,7 @@
   "entrypoints": [
     "static/js/runtime-main.70608d6a.js",
     "static/js/2.05a45dde.chunk.js",
-    "static/css/main.ec54aab7.chunk.css",
-    "static/js/main.a7ab9ebb.chunk.js"
+    "static/css/main.6034e70d.chunk.css",
+    "static/js/main.00d45f9e.chunk.js"
   ]
 }
